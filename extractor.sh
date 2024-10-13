@@ -13,7 +13,7 @@ mkdir -p "extracted_plugins"
 cd "extracted_plugins" || exit
 
 # Extract 3000 random plugin names from plugin.txt
-PLUGIN_NAMES=$(shuf -n 3 "../plugin.txt")
+PLUGIN_NAMES=$(shuf -n 3000 "../plugin.txt")
 
 # Read each plugin name
 while IFS= read -r PLUGIN_NAME; do
