@@ -17,6 +17,9 @@ PLUGIN_NAMES=$(shuf -n 3000 "../plugin.txt")
 
 # Read each plugin name
 while IFS= read -r PLUGIN_NAME; do
+    # Strip any hidden or non-printable characters from PLUGIN_NAME
+    PLUGIN_NAME=$(echo "$PLUGIN_NAME" | tr -cd '[:print:]')
+
     # Set the SVN URL for the plugin
     SVN_URL="https://plugins.svn.wordpress.org/$PLUGIN_NAME/trunk/"
 
