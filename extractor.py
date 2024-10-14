@@ -80,7 +80,7 @@ def main():
 
     # Randomly select 3 plugins from the list
     if plugins:
-        selected_plugins = random.sample(plugins, 3)
+        selected_plugins = random.sample(plugins, 19394)
         os.chdir("extracted_plugins")
 
         # Process each plugin
