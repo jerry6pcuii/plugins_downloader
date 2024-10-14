@@ -10,19 +10,19 @@ if not os.path.isfile("plugin.txt"):
 # Create the extracted_plugins directory if it doesn't exist
 os.makedirs("extracted_plugins", exist_ok=True)
 
-# Extract 3000 random plugin names from plugin.txt
+# Extract plugin names from plugin.txt
 with open("plugin.txt", "r") as file:
-    plugin_names = file.readlines()
+    plugin_names = [line.strip() for line in file.readlines() if line.strip()]
 
-# Randomly select 3 plugin names
-selected_plugins = random.sample(plugin_names, 5000)
+# Ensure we do not attempt to sample more plugins than available
+num_plugins_to_select = min(5000, len(plugin_names))
+selected_plugins = random.sample(plugin_names, num_plugins_to_select)
 
 # Navigate to the extracted_plugins directory
 os.chdir("extracted_plugins")
 
 # Process each selected plugin
 for plugin_name in selected_plugins:
-    plugin_name = plugin_name.strip()  # Remove any extra spaces or newlines
     svn_url = f"https://plugins.svn.wordpress.org/{plugin_name}/trunk/"
     
     # Create a directory for the plugin if it doesn't exist
@@ -31,10 +31,15 @@ for plugin_name in selected_plugins:
     # Navigate to the plugin directory
     os.chdir(plugin_name)
     
-    # Checkout the latest version from the SVN repository
-    subprocess.run(["svn", "checkout", svn_url, "."], check=True)
-    
-    print(f"Downloaded the latest version of {plugin_name} to {os.getcwd()}")
+    try:
+        # Checkout the latest version from the SVN repository
+        result = subprocess.run(["svn", "checkout", svn_url, "."], capture_output=True, text=True)
+        if result.returncode != 0:
+            print(f"Failed to download {plugin_name}: {result.stderr}")
+        else:
+            print(f"Downloaded the latest version of {plugin_name} to {os.getcwd()}")
+    except Exception as e:
+        print(f"An unexpected error occurred while downloading {plugin_name}: {str(e)}")
     
     # Navigate back to the extracted_plugins directory
     os.chdir("..")
