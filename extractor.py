@@ -15,7 +15,7 @@ with open("plugin.txt", "r") as file:
     plugin_names = [line.strip() for line in file.readlines() if line.strip()]
 
 # Ensure we do not attempt to sample more plugins than available
-num_plugins_to_select = min(5000, len(plugin_names))
+num_plugins_to_select = min(2300, len(plugin_names))
 selected_plugins = random.sample(plugin_names, num_plugins_to_select)
 
 # Navigate to the extracted_plugins directory
