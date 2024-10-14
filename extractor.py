@@ -74,13 +74,14 @@ if __name__ == "__main__":
     # Create the extracted_plugins directory if it doesn't exist
     os.makedirs("extracted_plugins", exist_ok=True)
     
-    # Get 3 random plugin names from the plugin.txt file
-    random_plugins = get_random_plugins(plugin_file, 3)
+    # Get 5000 random plugin names from the plugin.txt file
+    random_plugins = get_random_plugins(plugin_file, 5000)
     
     if random_plugins:
         for plugin in random_plugins:
             installations = parse(plugin)
-            if installations >= 1000:  # Change to 1000 or more
+            # Check if the result is a number and proceed only if valid
+            if isinstance(installations, int) and installations >= 1000:
                 print(f"Plugin: {plugin}, Active Installations: {installations}")
                 # Download the plugin if it has 1,000 or more installations
                 download_plugin(plugin)
