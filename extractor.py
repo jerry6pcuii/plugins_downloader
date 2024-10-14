@@ -38,8 +38,8 @@ def convert_installations(install_text):
     else:
         return 0
 
-# Function to extract 3 random plugins from the file
-def get_random_plugins(file_path, count=3):
+# Function to extract 19394 random plugins from the file
+def get_random_plugins(file_path, count=19394):
     try:
         with open(file_path, 'r') as file:
             plugins = file.read().splitlines()
