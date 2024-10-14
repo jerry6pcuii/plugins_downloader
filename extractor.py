@@ -1,4 +1,5 @@
 import os
+import random
 import subprocess
 import requests
 from bs4 import BeautifulSoup
@@ -60,13 +61,8 @@ def download_plugin(plugin_name):
     svn_url = f"https://plugins.svn.wordpress.org/{plugin_name}/trunk/"
     os.makedirs(plugin_name, exist_ok=True)
     os.chdir(plugin_name)
-    
-    try:
-        subprocess.run(["svn", "checkout", svn_url, "."], check=True)
-        print(f"Downloaded the latest version of {plugin_name} to {os.getcwd()}")
-    except subprocess.CalledProcessError:
-        print(f"Error downloading {plugin_name}. Skipping.")
-    
+    subprocess.run(["svn", "checkout", svn_url, "."], check=True)
+    print(f"Downloaded the latest version of {plugin_name} to {os.getcwd()}")
     os.chdir("..")
 
 def main():
@@ -82,19 +78,20 @@ def main():
     # Read plugin names
     plugins = get_plugins_from_file(file_path)
 
-    # Process each plugin
+    # Randomly select 3 plugins from the list
     if plugins:
+        selected_plugins = random.sample(plugins, 3000)
         os.chdir("extracted_plugins")
 
-        total_plugins = len(plugins)
-        for index, plugin in enumerate(plugins, start=1):
+        # Process each plugin
+        for plugin in selected_plugins:
             active_installs = parse(plugin)
 
             if isinstance(active_installs, int) and active_installs >= 1000:
-                print(f"{index}/{total_plugins}: {plugin} has {active_installs} active installations. Proceeding to download...")
+                print(f"{plugin} has {active_installs} active installations. Proceeding to download...")
                 download_plugin(plugin)
             else:
-                print(f"{index}/{total_plugins}: {plugin} has insufficient active installations: {active_installs}. Skipping download.")
+                print(f"{plugin} has insufficient active installations: {active_installs}. Skipping download.")
     else:
         print("No plugins found in the file!")
 
