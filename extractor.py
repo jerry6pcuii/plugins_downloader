@@ -1,11 +1,13 @@
 import os
-import requests
-from bs4 import BeautifulSoup
 import random
 import subprocess
+import requests
+from bs4 import BeautifulSoup
 
-# Function to parse the plugin page for active installations
 def parse(plugin_name):
+    """
+    Parses the WordPress plugin page to check for the number of active installations.
+    """
     URL = 'https://wordpress.org/plugins/' + plugin_name
     try:
         page = requests.get(URL)
@@ -23,74 +25,75 @@ def parse(plugin_name):
     for item in li_contents:
         if "Active installations" in item.text:
             ad = item.find("strong")
-            return convert_installations(ad.text)
+            active_installs = ad.text.replace(',', '')  # Remove commas for parsing
+            
+            # Check for 'million' or 'billion' and convert accordingly
+            if 'million' in active_installs:
+                active_installs = float(active_installs.replace(' million', '')) * 1_000_000
+            elif 'billion' in active_installs:
+                active_installs = float(active_installs.replace(' billion', '')) * 1_000_000_000
+            elif 'K' in active_installs:  # Check for installs in the 'K' range
+                active_installs = float(active_installs.replace('K', '')) * 1_000
+            elif '+' in active_installs:
+                active_installs = int(active_installs.replace('+', ''))
+            
+            try:
+                return int(active_installs)
+            except ValueError:
+                return 0
 
-# Function to convert installation text (e.g., "10+ million") to an integer
-def convert_installations(install_text):
-    install_text = install_text.replace(',', '').replace('+', '').strip().lower()
-    
-    if "million" in install_text:
-        return int(float(install_text.split()[0]) * 1_000_000)
-    elif "thousand" in install_text:
-        return int(float(install_text.split()[0]) * 1_000)
-    elif install_text.isdigit():
-        return int(install_text)
-    else:
-        return 0
-
-# Function to extract random plugins from the file
-def get_random_plugins(file_path, count=3):
+def get_plugins_from_file(file_path):
+    """
+    Reads the plugin names from a given file and returns a list of plugin names.
+    """
     try:
         with open(file_path, 'r') as file:
             plugins = file.read().splitlines()
-            # Adjust the count if it's greater than the number of available plugins
-            if count > len(plugins):
-                count = len(plugins)
-            return random.sample(plugins, count)
+            return plugins
     except FileNotFoundError:
         print("File not found!")
         return []
 
-# Function to download plugin using SVN
 def download_plugin(plugin_name):
+    """
+    Downloads the specified plugin from the WordPress SVN repository.
+    """
     svn_url = f"https://plugins.svn.wordpress.org/{plugin_name}/trunk/"
-    plugin_dir = os.path.join("extracted_plugins", plugin_name)
-    
-    # Create directory for plugin if it doesn't exist
-    os.makedirs(plugin_dir, exist_ok=True)
-    
-    # Checkout the plugin's latest version from SVN
-    result = subprocess.run(["svn", "checkout", svn_url, plugin_dir], capture_output=True, text=True)
-    
-    if result.returncode == 0:
-        print(f"Downloaded the latest version of {plugin_name} to {plugin_dir}")
-    else:
-        print(f"Failed to download {plugin_name}. Error: {result.stderr}")
+    os.makedirs(plugin_name, exist_ok=True)
+    os.chdir(plugin_name)
+    subprocess.run(["svn", "checkout", svn_url, "."], check=True)
+    print(f"Downloaded the latest version of {plugin_name} to {os.getcwd()}")
+    os.chdir("..")
 
-if __name__ == "__main__":
+def main():
     # Check if the plugin.txt file exists
-    plugin_file = "plugin.txt"
-    if not os.path.isfile(plugin_file):
+    file_path = 'plugin.txt'
+    if not os.path.isfile(file_path):
         print("File plugin.txt not found!")
-        exit(1)
-    
+        return
+
     # Create the extracted_plugins directory if it doesn't exist
     os.makedirs("extracted_plugins", exist_ok=True)
-    
-    # Get a random number of plugin names from the plugin.txt file
-    total_plugins = 19394  # You can set this to your desired count
-    random_plugins = get_random_plugins(plugin_file, total_plugins)
-    
-    if random_plugins:
-        for plugin in random_plugins:
-            installations = parse(plugin)
-            # Check if the result is a number and proceed only if valid
-            if isinstance(installations, int) and (1000 <= installations <= 100_000_000):
-                print(f"Plugin: {plugin}, Active Installations: {installations}")
-                # Download the plugin if it has between 1,000 and 100,000,000 installations
+
+    # Read plugin names
+    plugins = get_plugins_from_file(file_path)
+
+    # Randomly select 3 plugins from the list
+    if plugins:
+        selected_plugins = random.sample(plugins, 3)
+        os.chdir("extracted_plugins")
+
+        # Process each plugin
+        for plugin in selected_plugins:
+            active_installs = parse(plugin)
+
+            if isinstance(active_installs, int) and active_installs >= 1000:
+                print(f"{plugin} has {active_installs} active installations. Proceeding to download...")
                 download_plugin(plugin)
             else:
-                print(f"Skipping {plugin} (Installations: {installations})")
+                print(f"{plugin} has insufficient active installations: {active_installs}. Skipping download.")
     else:
-        print("No plugins found to download!")
- 
+        print("No plugins found in the file!")
+
+if __name__ == "__main__":
+    main()
