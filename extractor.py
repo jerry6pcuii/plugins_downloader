@@ -38,11 +38,14 @@ def convert_installations(install_text):
     else:
         return 0
 
-# Function to extract 3 random plugins from the file
+# Function to extract random plugins from the file
 def get_random_plugins(file_path, count=3):
     try:
         with open(file_path, 'r') as file:
             plugins = file.read().splitlines()
+            # Adjust the count if it's greater than the number of available plugins
+            if count > len(plugins):
+                count = len(plugins)
             return random.sample(plugins, count)
     except FileNotFoundError:
         print("File not found!")
@@ -74,16 +77,17 @@ if __name__ == "__main__":
     # Create the extracted_plugins directory if it doesn't exist
     os.makedirs("extracted_plugins", exist_ok=True)
     
-    # Get 103076 random plugin names from the plugin.txt file
-    random_plugins = get_random_plugins(plugin_file, 19394)
+    # Get a random number of plugin names from the plugin.txt file
+    total_plugins = 19394  # You can set this to your desired count
+    random_plugins = get_random_plugins(plugin_file, total_plugins)
     
     if random_plugins:
         for plugin in random_plugins:
             installations = parse(plugin)
             # Check if the result is a number and proceed only if valid
-            if isinstance(installations, int) and installations >= 1000:
+            if isinstance(installations, int) and (1000 <= installations <= 100_000_000):
                 print(f"Plugin: {plugin}, Active Installations: {installations}")
-                # Download the plugin if it has 1,000 or more installations
+                # Download the plugin if it has between 1,000 and 100,000,000 installations
                 download_plugin(plugin)
             else:
                 print(f"Skipping {plugin} (Installations: {installations})")
