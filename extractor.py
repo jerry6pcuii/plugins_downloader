@@ -74,8 +74,8 @@ if __name__ == "__main__":
     # Create the extracted_plugins directory if it doesn't exist
     os.makedirs("extracted_plugins", exist_ok=True)
     
-    # Get 5000 random plugin names from the plugin.txt file
-    random_plugins = get_random_plugins(plugin_file, 5000)
+    # Get 103076 random plugin names from the plugin.txt file
+    random_plugins = get_random_plugins(plugin_file, 103076)
     
     if random_plugins:
         for plugin in random_plugins:
