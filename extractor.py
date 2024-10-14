@@ -93,3 +93,4 @@ if __name__ == "__main__":
                 print(f"Skipping {plugin} (Installations: {installations})")
     else:
         print("No plugins found to download!")
+ 
