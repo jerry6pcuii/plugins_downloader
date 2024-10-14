@@ -3,6 +3,7 @@ import random
 import subprocess
 import requests
 from bs4 import BeautifulSoup
+import time  # Import time to add delays
 
 def parse(plugin_name):
     """
@@ -83,15 +84,20 @@ def main():
         selected_plugins = random.sample(plugins, 3000)
         os.chdir("extracted_plugins")
 
-        # Process each plugin
+        # Process each plugin with a delay between each step
         for plugin in selected_plugins:
             active_installs = parse(plugin)
 
             if isinstance(active_installs, int) and active_installs >= 1000:
                 print(f"{plugin} has {active_installs} active installations. Proceeding to download...")
                 download_plugin(plugin)
+                time.sleep(2)  # Add a 2-second delay after each plugin download
             else:
                 print(f"{plugin} has insufficient active installations: {active_installs}. Skipping download.")
+                time.sleep(2)  # Add a 2-second delay after skipping
+
+            time.sleep(1)  # Add a delay between each plugin check
+
     else:
         print("No plugins found in the file!")
 
