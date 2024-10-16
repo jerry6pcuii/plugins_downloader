@@ -10,7 +10,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 # Run ripgrep and save results to report.txt
-rg --glob '*.php' --no-ignore-vcs '\b(eval|exec|system|shell_exec|wp_set_auth_cookie|unlink|wp_delete_file|filesystem->delete|copy|move_uploaded_file|file_put_contents|put_contents|unzip_file|wp_handle_upload|add_option|update_option|add_user_meta|update_user_meta|wp_insert_user|wp_update_user|wp_set_password|reset_password|add_role|set_role)\s*\(' "$DIRECTORY" > report.txt
+rg --glob '*.php' --no-ignore-vcs -e '\b($_GET|$_POST|$_REQUEST|$_SERVER['REQUEST_URI']|$_SERVER['PHP_SELF']|$_SERVER['HTTP_REFERER']|$_COOKIE|add_query_arg|remove_query_arg|$_SERVER['HTTP_X_FORWARDED_FOR']|$_FILES|$content|shortcode_atts|add_shortcode)\s*\(' -e '\.\s*\$([a-z])\w+/g' "$DIRECTORY" > report.txt
 
 # Notify user that the report is generated
 echo "Results have been saved to report.txt"
