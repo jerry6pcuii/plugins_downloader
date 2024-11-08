@@ -10,7 +10,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 # Run ripgrep and save results to report.txt
-rg 'unzip_file\(' --iglob '*.php' -C 3 "$DIRECTORY" > report.txt
+rg 'move_uploaded_file\(' --iglob '*.php' -C 3 "$DIRECTORY" > report.txt
 
 # Notify user that the report is generated
 echo "Results have been saved to report.txt"
