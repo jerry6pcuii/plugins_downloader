@@ -2997,3 +2997,4 @@ remove-version-info
 nc-wishlist-for-woocommerce
 internet-speed-test
 hierarchical-pages
+spatie-ray
