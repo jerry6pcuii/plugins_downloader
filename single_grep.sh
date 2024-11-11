@@ -10,7 +10,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 # Run ripgrep and save results to report.txt
-rg "move_uploaded_file\(" --iglob '*.php' -C 3 "$DIRECTORY" > report.txt
+rg --no-heading "echo.*\\\$_GET" | grep "\.php:" | grep -v -e "(\$_GET" -e "( \$_GET" -e "esc_" -e "admin_url" -e "(int)" -e htmlentities -C 3 "$DIRECTORY" > report.txt
 
 # Notify user that the report is generated
 echo "Results have been saved to report.txt"
