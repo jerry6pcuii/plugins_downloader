@@ -10,7 +10,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 # Run ripgrep and save results to report.txt
-rg --no-heading "unzip_file\(" -C 3 "$DIRECTORY" > report.txt
+grep -rnw './' -e 'add_query_arg(' | grep -v 'esc_url' | grep -v 'esc_html' -C 4 "$DIRECTORY" > report.txt
 
 # Notify user that the report is generated
 echo "Results have been saved to report.txt"
