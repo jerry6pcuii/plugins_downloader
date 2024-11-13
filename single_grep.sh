@@ -10,7 +10,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 # Run ripgrep and save results to report.txt
-rg --no-heading "unzip_file\(" -C 4 "$DIRECTORY" > report.txt
+rg --no-heading "add_query_arg\(" -C 4 "$DIRECTORY" > report.txt
 
 # Notify user that the report is generated
 echo "Results have been saved to report.txt"
