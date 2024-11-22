@@ -7,4 +7,4 @@
 \b(include|require|include_once|require_once|fread|file|readfile|file_get_contents|move_uploaded_file|ZipArchive|wp_ajax_nopriv.*upload)\(
 \b(wp_set_current_user|update_option|do_action|wp_set_current_user)\(
 \b(wp_remote_get)\(
-
+href=['"]\{\$\w+\s*\}['"]
