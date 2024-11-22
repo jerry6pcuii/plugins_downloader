@@ -1,9 +1,10 @@
 \b($_GET|$_POST|$_REQUEST|$_SERVER['REQUEST_URI']|$_SERVER['PHP_SELF']|$_SERVER['HTTP_REFERER']|$_COOKIE|add_query_arg|remove_query_arg)\(
+\b(add_action|wp_ajax|admin_init|wp_ajax_nopriv|admin_post|admin_post_nopriv|admin_action|profile_update|personal_options_update)\(
 \b($wpdb->query|\$wpdb->get_var|\$wpdb->get_row|\$wpdb->get_col|\$wpdb->get_results|\$wpdb->replace)\(
 \b(system|exec|passthru|shell_exec)\(
 \b(eval|assert|preg_replace|call_user_func)\(
 \b(unserialize|maybe_unserialize)\(
-\b(include|require|include_once|require_once|fread|file|readfile|file_get_contents|move_uploaded_file|ZipArchive)\(
+\b(include|require|include_once|require_once|fread|file|readfile|file_get_contents|move_uploaded_file|ZipArchive|wp_ajax_nopriv.*upload)\(
 \b(wp_set_current_user|update_option|do_action|wp_set_current_user)\(
 \b(wp_remote_get)\(
 
