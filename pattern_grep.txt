@@ -8,3 +8,4 @@
 \b(wp_set_current_user|update_option|do_action|wp_set_current_user)\(
 \b(wp_remote_get)\(
 href=['"]\{\$\w+\s*\}['"]
+\b(echo|print|printf|sprintf|die|wp_die)\s*\(
