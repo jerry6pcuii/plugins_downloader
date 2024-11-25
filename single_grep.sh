@@ -42,7 +42,7 @@ OUTPUT_FILE="report_line_${LINE_NUMBER}.txt"
 # Run ripgrep and save results to the output file
 {
     echo "Pattern used (line $LINE_NUMBER): $pattern_grep"
-    rg --glob '*.php' --no-ignore-vcs "$pattern_grep" -C 10 "$DIRECTORY"
+    rg --glob '*.php' --no-ignore-vcs "$pattern_grep" -C 20 "$DIRECTORY"
 } > "$OUTPUT_FILE"
 
 # Notify user that the report is generated
