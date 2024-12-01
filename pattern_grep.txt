@@ -9,5 +9,6 @@
 \b(wp_remote_get)\(
 href=['"]\{\$\w+\s*\}['"]
 \b(echo|print|printf|sprintf|die|wp_die)\s*\(
+add_query_arg\(\s*'[^']+'\s*,\s*'[^']+'\s*\)
 shortcode_atts\s*\(\s*array\s*\(
 <\?php\s+echo\s+add_query_arg\(\s*'[^']+'\s*,\s*'[^']+'\s*\)\s*;\s*\?>
