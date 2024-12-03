@@ -9,6 +9,7 @@
 \b(wp_remote_get)\(
 href=['"]\{\$\w+\s*\}['"]
 \b(echo|print|printf|sprintf|die|wp_die)\s*\(
+if\s*\(\s*isset\(\s*\$_POST\['[a-zA-Z0-9-]+'\]\s*\)\s*&&\s*!wp_verify_nonce\(\s*\$_POST\['[a-zA-Z0-9-]+'\]\s*,\s*'[a-zA-Z0-9-]+'\s*\)\s*\)
 value="'\s*\.\s*\$_REQUEST\['[^']+'\]\s*\.\s*'"
 add_action\s*\(\s*'[^']*'\s*,\s*array\s*\(\s*\$this\s*,\s*'[^']*'\s*\)\s*\);
 add_query_arg\(\s*'[^']+'\s*,\s*'[^']+'\s*\)
