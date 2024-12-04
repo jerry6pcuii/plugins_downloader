@@ -9,6 +9,7 @@
 \b(wp_remote_get)\(
 href=['"]\{\$\w+\s*\}['"]
 \b(echo|print|printf|sprintf|die|wp_die)\s*\(
+value="'\s*\.\s*\$(?:_REQUEST|_GET|_POST|_COOKIE|_SERVER|_FILES|_ENV|_SESSION)\['[^']+'\]\s*\.\s*'"
 <form\s+method=["']post["']\s+action=["']
 add_action\(\s*["']init["']\s*
 if\s*\(\s*isset\(\s*\$_POST\['[a-zA-Z0-9-]+'\]\s*\)\s*&&\s*!wp_verify_nonce\(\s*\$_POST\['[a-zA-Z0-9-]+'\]\s*,\s*'[a-zA-Z0-9-]+'\s*\)\s*\)
