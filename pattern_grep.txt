@@ -9,6 +9,7 @@
 \b(wp_remote_get)\(
 href=['"]\{\$\w+\s*\}['"]
 \b(echo|print|printf|sprintf|die|wp_die)\s*\(
+isset\s*\(\s*\$_REQUEST\[\s*['"]\w+['"]\s*\]\s*\)\s*\?\s*sanitize_text_field\s*\(\s*\$_REQUEST\[\s*['"]\w+['"]\s*\]\s*\)\s*:\s*['"]?[\w\s]*['"]?;
 \$_SERVER\['PHP_SELF'\]
 <\?php\s+echo\s+\$_REQUEST\['page'\]\s*\?>
 shortcode_atts\s*\(\s*array\s*\(
