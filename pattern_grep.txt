@@ -25,3 +25,4 @@ value="'\s*\.\s*\$_REQUEST\['[^']+'\]\s*\.\s*'"
 add_action\s*\(\s*'[^']*'\s*,\s*array\s*\(\s*\$this\s*,\s*'[^']*'\s*\)\s*\);
 add_query_arg\(\s*'[^']+'\s*,\s*'[^']+'\s*\)
 <\?php\s+echo\s+add_query_arg\(\s*'[^']+'\s*,\s*'[^']+'\s*\)\s*;\s*\?>
+(\$_FILES\['.*?'\]\['tmp_name'\])|move_uploaded_file\(|file_put_contents\(|fopen\(|fwrite\(
