@@ -9,8 +9,7 @@
 \b(wp_remote_get)\(
 href=['"]\{\$\w+\s*\}['"]
 \b(echo|print|printf|sprintf|die|wp_die)\s*\(
-echo \$_REQUEST\(
-unzip_file\(
+(?:\$_(?:GET|POST|REQUEST|COOKIE)|\$_SERVER\['(?:REQUEST_URI|PHP_SELF|HTTP_REFERER)'\]|(?:add_query_arg|remove_query_arg)\s*\()unzip_file\(
 move_uploaded_file\(
 (?<!prepare)\(('|")SELECT.+FROM.+('|").*\..* 
 \$\w+\s*=\s*isset\(\s*\$_GET\[\s*["']\w+["']\s*\]\s*\)\s*\?\s*\$_GET\[\s*["']\w+["']\s*\]\s*:\s*['"].*?['"]\s*;
