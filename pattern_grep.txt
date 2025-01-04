@@ -9,7 +9,7 @@
 \b(wp_remote_get)\(
 href=['"]\{\$\w+\s*\}['"]
 \b(echo|print|printf|sprintf|die|wp_die)\s*\(
-echo sanitize_text_field\(\$_REQUEST
+echo \$_REQUEST\(
 unzip_file\(
 move_uploaded_file\(
 (?<!prepare)\(('|")SELECT.+FROM.+('|").*\..* 
